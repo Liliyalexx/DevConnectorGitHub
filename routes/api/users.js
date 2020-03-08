@@ -10,6 +10,12 @@ const bcrypt = require('bcryptjs');
 //@accwss Public
 
 router.post('/register', (req, res) => {
+
+  const {errors, isValid} = validateRegisterInput(req.body)
+  if(!isValid) {
+    return res.status(400).json(errors);
+  }
+  
   User.findsOne ({email:req.body.email})
   .then(user => {
     if (user){
